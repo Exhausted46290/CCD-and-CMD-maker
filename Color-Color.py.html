@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Color-Color.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #5f5a60; font-style: italic;}
+.s1 { color: #f8f8f8;}
+.s2 { color: #f9ee98;}
+.s3 { color: #8f9d6a;}
+.s4 { color: #cda869;}
+.s5 { color: #cf6a4c;}
+</style>
+</head>
+<body bgcolor="#141414">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Color-Color.py</font>
+</center></td></tr></table>
+<pre><span class="s0">#importing modules</span>
+<span class="s2">import </span><span class="s1">csv</span>
+<span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt</span>
+<span class="s2">from </span><span class="s1">matplotlib.ticker </span><span class="s2">import </span><span class="s1">MaxNLocator</span>
+
+<span class="s2">with </span><span class="s1">open(</span><span class="s3">'cep_objects.csv'</span><span class="s1">, </span><span class="s3">'r'</span><span class="s1">) </span><span class="s2">as </span><span class="s1">file</span><span class="s4">:</span>
+    <span class="s1">content </span><span class="s4">= </span><span class="s1">csv.reader(file)</span>
+    <span class="s1">next(content, </span><span class="s2">None</span><span class="s1">)</span>
+
+    <span class="s1">x_color </span><span class="s4">= </span><span class="s1">[]</span>
+    <span class="s1">y_color </span><span class="s4">= </span><span class="s1">[]</span>
+
+    <span class="s2">for </span><span class="s1">row </span><span class="s2">in </span><span class="s1">content</span><span class="s4">:</span>
+        <span class="s2">try</span><span class="s4">:</span>
+            <span class="s1">w1 </span><span class="s4">= </span><span class="s1">float(row[</span><span class="s5">10</span><span class="s1">])   </span><span class="s0"># W1 magnitude</span>
+            <span class="s1">w2 </span><span class="s4">= </span><span class="s1">float(row[</span><span class="s5">11</span><span class="s1">])   </span><span class="s0"># W2 magnitude</span>
+            <span class="s1">j  </span><span class="s4">= </span><span class="s1">float(row[</span><span class="s5">13</span><span class="s1">])   </span><span class="s0"># J magnitude</span>
+        <span class="s2">except </span><span class="s1">(ValueError, IndexError)</span><span class="s4">:</span>
+            <span class="s2">continue</span>
+
+        <span class="s1">x_color.append(w1 </span><span class="s4">- </span><span class="s1">w2)</span>
+        <span class="s1">y_color.append(j </span><span class="s4">- </span><span class="s1">w2)</span>
+
+<span class="s1">plt.figure(figsize</span><span class="s4">=</span><span class="s1">(</span><span class="s5">10</span><span class="s1">, </span><span class="s5">6</span><span class="s1">), dpi</span><span class="s4">=</span><span class="s5">150</span><span class="s1">)</span>
+<span class="s1">plt.scatter(x_color, y_color, s</span><span class="s4">=</span><span class="s5">10</span><span class="s1">, alpha</span><span class="s4">=</span><span class="s5">0.6</span><span class="s1">, edgecolors</span><span class="s4">=</span><span class="s3">'none'</span><span class="s1">)</span>
+
+<span class="s1">plt.xlabel(</span><span class="s3">'W1 - W2 (mag)'</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s3">'J - W2 (mag)'</span><span class="s1">)</span>
+<span class="s1">plt.title(</span><span class="s3">'Color-Color Diagram for Cepheid Candidates'</span><span class="s1">)</span>
+
+<span class="s1">ax </span><span class="s4">= </span><span class="s1">plt.gca()</span>
+<span class="s1">ax.xaxis.set_major_locator(MaxNLocator(</span><span class="s5">5</span><span class="s1">))</span>
+<span class="s1">ax.yaxis.set_major_locator(MaxNLocator(</span><span class="s5">5</span><span class="s1">))</span>
+
+<span class="s1">plt.tight_layout()</span>
+<span class="s1">plt.show()</span>
+</pre>
+</body>
+</html>

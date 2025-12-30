@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Color-Magnitude.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #f9ee98;}
+.s1 { color: #f8f8f8;}
+.s2 { color: #8f9d6a;}
+.s3 { color: #cda869;}
+.s4 { color: #5f5a60; font-style: italic;}
+.s5 { color: #cf6a4c;}
+</style>
+</head>
+<body bgcolor="#141414">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Color-Magnitude.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">matplotlib.pyplot </span><span class="s0">as </span><span class="s1">plt</span>
+<span class="s0">import </span><span class="s1">csv</span>
+<span class="s0">from </span><span class="s1">matplotlib.ticker </span><span class="s0">import </span><span class="s1">MaxNLocator</span>
+
+<span class="s0">with </span><span class="s1">open(</span><span class="s2">'cep_objects.csv'</span><span class="s1">, </span><span class="s2">'r'</span><span class="s1">) </span><span class="s0">as </span><span class="s1">file</span><span class="s3">:</span>
+    <span class="s1">content </span><span class="s3">= </span><span class="s1">csv.reader(file)</span>
+    <span class="s1">next(content, </span><span class="s0">None</span><span class="s1">)  </span><span class="s4"># skip header</span>
+
+    <span class="s1">x_color </span><span class="s3">= </span><span class="s1">[]  </span><span class="s4"># W1 - W2 color</span>
+    <span class="s1">y_mag </span><span class="s3">= </span><span class="s1">[]    </span><span class="s4"># W1 magnitude</span>
+
+    <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">content</span><span class="s3">:</span>
+        <span class="s0">try</span><span class="s3">:</span>
+            <span class="s1">w1 </span><span class="s3">= </span><span class="s1">float(row[</span><span class="s5">10</span><span class="s1">])   </span><span class="s4"># W1 magnitude (column 10)</span>
+            <span class="s1">w2 </span><span class="s3">= </span><span class="s1">float(row[</span><span class="s5">11</span><span class="s1">])   </span><span class="s4"># W2 magnitude (column 11)</span>
+            <span class="s1">j </span><span class="s3">= </span><span class="s1">float(row[</span><span class="s5">14</span><span class="s1">])</span>
+        <span class="s0">except </span><span class="s1">(ValueError, IndexError)</span><span class="s3">:</span>
+            <span class="s0">continue</span>
+
+        <span class="s1">color </span><span class="s3">= </span><span class="s1">j </span><span class="s3">- </span><span class="s1">w2   </span><span class="s4"># W1 - W2</span>
+        <span class="s1">mag </span><span class="s3">= </span><span class="s1">w2          </span><span class="s4"># Use W1 as the magnitude axis</span>
+
+        <span class="s1">x_color.append(color)</span>
+        <span class="s1">y_mag.append(mag)</span>
+
+<span class="s1">plt.figure(figsize</span><span class="s3">=</span><span class="s1">(</span><span class="s5">10</span><span class="s1">, </span><span class="s5">6</span><span class="s1">), dpi</span><span class="s3">=</span><span class="s5">150</span><span class="s1">)</span>
+<span class="s1">plt.scatter(x_color, y_mag, s</span><span class="s3">=</span><span class="s5">10</span><span class="s1">, alpha</span><span class="s3">=</span><span class="s5">0.6</span><span class="s1">, edgecolors</span><span class="s3">=</span><span class="s2">'none'</span><span class="s1">)</span>
+
+<span class="s1">plt.xlabel(</span><span class="s2">'J-W2 (mag)'</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s2">'W2 (mag)'</span><span class="s1">)</span>
+<span class="s1">plt.title(</span><span class="s2">'Color-Magnitude Diagram for Cepheid Candidates (J-W2 vs W2)'</span><span class="s1">)</span>
+
+<span class="s1">ax </span><span class="s3">= </span><span class="s1">plt.gca()</span>
+<span class="s1">ax.xaxis.set_major_locator(MaxNLocator(</span><span class="s5">5</span><span class="s1">))</span>
+<span class="s1">ax.yaxis.set_major_locator(MaxNLocator(</span><span class="s5">5</span><span class="s1">))</span>
+<span class="s1">ax.invert_yaxis()</span>
+
+<span class="s1">plt.tight_layout()</span>
+<span class="s1">plt.show()</span>
+</pre>
+</body>
+</html>
